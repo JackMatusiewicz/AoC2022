@@ -2,7 +2,7 @@ use std::io;
 
 pub enum AdventError {
     IoError(io::Error),
-    OtherError(String)
+    OtherError(String),
 }
 
 impl From<io::Error> for AdventError {

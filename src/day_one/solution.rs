@@ -2,8 +2,8 @@ use std::result::Result;
 use std::vec::Vec;
 
 use crate::core::advent_error::AdventError;
-use crate::day_one::elf::Elf;
 use crate::core::file::read_lines_to_vec;
+use crate::day_one::elf::Elf;
 
 fn convert_lines_to_elves(lines: Vec<String>) -> Result<Vec<Elf>, AdventError> {
     let mut v = Vec::<i32>::new();
@@ -31,28 +31,20 @@ fn convert_lines_to_elves(lines: Vec<String>) -> Result<Vec<Elf>, AdventError> {
 }
 
 fn find_largest_stash(elves: &Vec<Elf>) -> i32 {
-    elves
-        .iter()
-        .map(|c| c.sum_of_items)
-        .max()
-        .unwrap_or(0)
+    elves.iter().map(|c| c.sum_of_items).max().unwrap_or(0)
 }
 
 pub fn calculate_part_one(path: String) -> Result<i32, AdventError> {
     let lines = read_lines_to_vec(path)?;
     let elves = convert_lines_to_elves(lines)?;
     let largest = find_largest_stash(&elves);
-    
+
     Ok(largest)
 }
 
 fn find_largest_three(elves: &Vec<Elf>) -> i32 {
-    let mut sums: Vec<i32> =
-        elves
-            .iter()
-            .map(|c| c.sum_of_items)
-            .collect();
-    sums.sort_by(|a,b| b.cmp(a));
+    let mut sums: Vec<i32> = elves.iter().map(|c| c.sum_of_items).collect();
+    sums.sort_by(|a, b| b.cmp(a));
 
     sums.iter().take(3).sum()
 }
@@ -62,5 +54,4 @@ pub fn calculate_part_two(path: String) -> Result<i32, AdventError> {
     let mut elves = convert_lines_to_elves(lines)?;
 
     Ok(find_largest_three(&elves))
-
 }
