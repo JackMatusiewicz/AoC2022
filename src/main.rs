@@ -1,22 +1,22 @@
 pub mod core;
 pub mod day_one;
 pub mod day_two;
+pub mod day_three;
+pub mod day_four;
 
 use crate::core::advent_error::AdventError;
-use day_two::solution;
+use crate::core::file::read_lines_to_vec;
+use crate::day_four::solution;
+
 
 fn main() {
-    let answer = solution::calculate_part_two("".to_string());
+    let lines = read_lines_to_vec("".to_string());
 
-    match answer {
-        Ok(v) => {
-            println!("The answer is: {}", v)
-        }
-        Err(AdventError::IoError(ioErr)) => {
-            println!("IO error: {}", ioErr);
-        }
-        Err(AdventError::OtherError(s)) => {
-            println!("Other error: {}", s);
-        }
+    match lines {
+        Ok(lines) => {
+            let answer = solution::calculate_part_two(lines);
+            println!("{}", answer);
+        },
+        _ => ()
     }
 }
