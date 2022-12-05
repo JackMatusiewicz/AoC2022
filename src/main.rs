@@ -3,10 +3,11 @@ pub mod day_one;
 pub mod day_two;
 pub mod day_three;
 pub mod day_four;
+pub mod day_five;
 
 use crate::core::advent_error::AdventError;
 use crate::core::file::read_lines_to_vec;
-use crate::day_four::solution;
+use crate::day_five::solution;
 
 
 fn main() {
@@ -14,7 +15,7 @@ fn main() {
 
     match lines {
         Ok(lines) => {
-            let answer = solution::calculate_part_two(lines);
+            let answer = solution::calculate_part_one(lines);
             println!("{}", answer);
         },
         _ => ()
