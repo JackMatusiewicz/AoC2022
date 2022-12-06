@@ -4,10 +4,11 @@ pub mod day_two;
 pub mod day_three;
 pub mod day_four;
 pub mod day_five;
+pub mod day_six;
 
 use crate::core::advent_error::AdventError;
 use crate::core::file::read_lines_to_vec;
-use crate::day_five::solution;
+use crate::day_six::solution;
 
 
 fn main() {
@@ -15,8 +16,8 @@ fn main() {
 
     match lines {
         Ok(lines) => {
-            let answer = solution::calculate_part_one(lines);
-            println!("{}", answer);
+            let answer = solution::calculate(lines[0].clone());
+            println!("{}", answer.unwrap_or(-1));
         },
         _ => ()
     }
