@@ -1,3 +1,3 @@
-pub mod solution;
-pub mod dock;
 pub mod crane_command;
+pub mod dock;
+pub mod solution;

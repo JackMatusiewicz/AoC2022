@@ -13,7 +13,7 @@ impl Dock {
         // This modification is what was needed for part 2, remove it and slap them
         // straight into the sink stack for part one.
         let mut crates_to_move = Vec::new();
-        
+
         while to_move > 0 && !self.0[source_id].is_empty() {
             to_move -= 1;
             let v = self.0[source_id].pop().unwrap();

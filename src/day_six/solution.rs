@@ -16,7 +16,6 @@ pub fn calculate(data: String) -> Option<i32> {
             if *count == 0 {
                 seen_map.remove(&removed);
             }
-            
         }
         seen_deque.push_back(c);
         *(seen_map.entry(c).or_insert(0)) += 1;

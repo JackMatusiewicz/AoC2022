@@ -1,4 +1,7 @@
-use std::{collections::{HashMap, HashSet}, mem::take};
+use std::{
+    collections::{HashMap, HashSet},
+    mem::take,
+};
 
 fn get_mapping() -> HashMap<char, i32> {
     HashMap::from([
@@ -53,7 +56,7 @@ fn get_mapping() -> HashMap<char, i32> {
         ('W', 49),
         ('X', 50),
         ('Y', 51),
-        ('Z', 52)
+        ('Z', 52),
     ])
 }
 
@@ -73,7 +76,7 @@ fn get_duplicate(v: &String) -> i32 {
     }
 
     let mut sum = 0;
-    
+
     for c in first_half.intersection(&second_half) {
         sum += mapping[c];
     }
@@ -82,9 +85,7 @@ fn get_duplicate(v: &String) -> i32 {
 }
 
 pub fn calculate_part_one(data: Vec<String>) -> i32 {
-    data.iter()
-        .map(get_duplicate)
-        .sum()
+    data.iter().map(get_duplicate).sum()
 }
 
 fn add_to_dict(d: &mut HashMap<char, i32>, c: &HashSet<char>) -> () {
@@ -98,24 +99,23 @@ fn add_to_dict(d: &mut HashMap<char, i32>, c: &HashSet<char>) -> () {
 pub fn find_shared_item(data: &[String]) -> i32 {
     let m = get_mapping();
     let mut d = HashMap::<char, i32>::new();
-    let v: HashMap<char, i32> =
-        data
-            .iter()
-            .map(|c| {
-                let v: HashSet<char> = c.chars().collect();
-                return v;
-            })
-            .fold(HashMap::<char, i32>::new(), |mut c,s| {
-                add_to_dict(&mut c, &s);
-                return c;
-            });
-    
-    v.into_iter().filter(|&(_, count)| count == 3).map(|(c,_)| m[&c]).sum()
+    let v: HashMap<char, i32> = data
+        .iter()
+        .map(|c| {
+            let v: HashSet<char> = c.chars().collect();
+            return v;
+        })
+        .fold(HashMap::<char, i32>::new(), |mut c, s| {
+            add_to_dict(&mut c, &s);
+            return c;
+        });
+
+    v.into_iter()
+        .filter(|&(_, count)| count == 3)
+        .map(|(c, _)| m[&c])
+        .sum()
 }
 
 pub fn calculate_part_two(data: Vec<String>) -> i32 {
-    data
-        .chunks(3)
-        .map(find_shared_item)
-        .sum()
+    data.chunks(3).map(find_shared_item).sum()
 }
