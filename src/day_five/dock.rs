@@ -1,5 +1,3 @@
-use std::collections::VecDeque;
-
 use super::crane_command::CraneCommand;
 
 pub struct Dock(pub Vec<Vec<char>>);

@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, HashSet},
-    mem::take,
-};
+use std::collections::{HashMap, HashSet};
 
 fn get_mapping() -> HashMap<char, i32> {
     HashMap::from([
@@ -91,14 +88,13 @@ pub fn calculate_part_one(data: Vec<String>) -> i32 {
 fn add_to_dict(d: &mut HashMap<char, i32>, c: &HashSet<char>) -> () {
     for i in c {
         let ent = d.entry(*i);
-        let mut v = ent.or_insert(0);
+        let v = ent.or_insert(0);
         *v = *v + 1;
     }
 }
 
 pub fn find_shared_item(data: &[String]) -> i32 {
     let m = get_mapping();
-    let mut d = HashMap::<char, i32>::new();
     let v: HashMap<char, i32> = data
         .iter()
         .map(|c| {
