@@ -3,18 +3,16 @@ use super::rope::Rope;
 use std::collections::HashSet;
 
 fn find_path_taken(movements: Vec<Direction>) -> Vec<Rope> {
-    let origin = Rope {
-        head: (0, 0),
-        tail: (0, 0),
-    };
-
+    // Flip this to the part one rope to calculate part one.
+    let origin = Rope::make_part_two_rope();
     origin.apply_movements(&movements)
 }
 
 fn find_unique_tail_positions(data: &Vec<Rope>) -> usize {
     let mut seen = HashSet::new();
     for v in data.iter() {
-        seen.insert(v.tail);
+        let tail_item = v.tail.get(v.tail.len() - 1).unwrap();
+        seen.insert(tail_item.clone());
     }
     seen.len()
 }
@@ -37,7 +35,7 @@ fn convert_input(line: String) -> Vec<Direction> {
 
 fn print_path(path: &Vec<Rope>) -> () {
     for pos in path.iter() {
-        println!("Head: ({},{}) - Tail: ({}, {})", pos.head.0, pos.head.1, pos.tail.0, pos.tail.1);
+        //println!("Head: ({},{}) - Tail: ({}, {})", pos.head., pos.head.1, pos.tail.0, pos.tail.1);
     }
 }
 

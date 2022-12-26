@@ -1,64 +1,92 @@
 use super::direction::Direction;
 
+#[derive(Eq, PartialEq, Clone, Debug, Hash)]
+pub struct Pos {
+    row: i32,
+    col: i32
+} 
+
 #[derive(Eq, PartialEq, Clone)]
 pub struct Rope {
-    pub head: (i32, i32),
-    pub tail: (i32, i32),
+    pub head: Pos,
+    pub tail: Vec<Pos>,
 }
 
 impl Rope {
-    fn y_delta(&self) -> i32 {
-        (self.head.0 - self.tail.0).abs()
+
+    pub fn make_part_one_rope() -> Rope {
+        Rope {
+            head: Pos {row: 0, col: 0 },
+            tail: vec![Pos {row: 0, col: 0 }],
+        }    
     }
 
-    fn x_delta(&self) -> i32 {
-        (self.head.1 - self.tail.1).abs()
+    pub fn make_part_two_rope() -> Rope {
+        Rope {
+            head: Pos {row: 0, col: 0 },
+            tail: vec![
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 },
+                Pos {row: 0, col: 0 }
+            ],
+        } 
     }
 
-    fn apply_movement_to_head(&self, dir: &Direction) -> Rope {
+    fn y_delta(head: &Pos, tail: &Pos) -> i32 {
+        (head.row - tail.row).abs()
+    }
+
+    fn x_delta(head: &Pos, tail: &Pos) -> i32 {
+        (head.col - tail.col).abs()
+    }
+
+    fn apply_movement_to_head(head: &Pos, dir: &Direction) -> Pos {
         match dir {
-            Direction::Up => Rope {
-                head: (self.head.0 + 1, self.head.1),
-                tail: self.tail,
+            Direction::Up => Pos {
+                row: head.row + 1, col: head.col
             },
-            Direction::Down => Rope {
-                head: (self.head.0 - 1, self.head.1),
-                tail: self.tail,
+            Direction::Down => Pos {
+                row: head.row - 1, col: head.col
             },
-            Direction::Left => Rope {
-                head: (self.head.0, self.head.1 - 1),
-                tail: self.tail,
+            Direction::Left => Pos {
+                row: head.row, col: head.col - 1
             },
-            Direction::Right => Rope {
-                head: (self.head.0, self.head.1 + 1),
-                tail: self.tail,
+            Direction::Right => Pos {
+                row: head.row, col: head.col + 1
             },
         }
     }
 
-    fn move_tail_for_constraints(&self) -> Option<Rope> {
-        let x_delta = self.x_delta();
-        let y_delta = self.y_delta();
+    // Update the tail position based on the head.
+    fn move_tail_for_constraints(head: &Pos, tail: &Pos) -> Pos {
+        let x_delta = Rope::x_delta(head, tail);
+        let y_delta = Rope::y_delta(head, tail);
         if x_delta <= 1 && y_delta <= 1 {
-            return Option::None;
+            return tail.clone();
         }
         if x_delta == 0 {
-            if self.head.0 > self.tail.0 {
-                return Option::Some(Rope { head: self.head.clone(), tail: (self.head.0-1, self.tail.1)});
+            if head.row > tail.row {
+                return Pos { row: head.row-1, col: tail.col };
             } else {
-                return Option::Some(Rope { head: self.head.clone(), tail: (self.head.0+1, self.tail.1)});
+                return Pos { row: head.row+1, col: tail.col };
             }
         } else if y_delta == 0 {
-            if self.head.1 > self.tail.1 {
-                return Option::Some(Rope { head: self.head.clone(), tail: (self.tail.0, self.head.1 - 1)});
+            if head.col > tail.col {
+                return Pos { row: tail.row, col: head.col - 1};
             } else {
-                return Option::Some(Rope { head: self.head.clone(), tail: (self.tail.0, self.head.1 + 1)});
+                return Pos { row: tail.row, col: head.col + 1 };
             }
         } else {
-            let row = if self.head.0 > self.tail.0 { self.tail.0 + 1 } else {self.tail.0 - 1};
-            let col = if self.head.1 > self.tail.1 { self.tail.1 + 1 } else {self.tail.1 - 1};
+            let row = if head.row > tail.row { tail.row + 1 } else {tail.row- 1};
+            let col = if head.col > tail.col { tail.col + 1 } else {tail.col - 1};
 
-            return Option::Some(Rope { head: self.head.clone(), tail: (row, col)});
+            return Pos { row, col };
         }
     }
 
@@ -68,15 +96,16 @@ impl Rope {
         let mut last_added_index: usize = 0;
         for movement in movements.iter() {
             let last_pos = rope_positions.get(last_added_index).unwrap();
-            let next_pos = last_pos.apply_movement_to_head(movement);
-            rope_positions.push(next_pos.clone());
+            let next_pos_head = Rope::apply_movement_to_head(&last_pos.head, movement);
+            let mut next_in_chain = next_pos_head.clone();
+            let mut tail = vec![];
+            for next_tail in last_pos.tail.iter() {
+                let updated_tail = Rope::move_tail_for_constraints(&next_in_chain, &next_tail);
+                tail.push(updated_tail.clone());
+                next_in_chain = updated_tail;
+            }
+            rope_positions.push(Rope { head: next_pos_head, tail });
             last_added_index += 1;
-
-            let updated_next = next_pos.move_tail_for_constraints();
-            updated_next.map(|v| {
-                last_added_index += 1;
-                rope_positions.push(v);
-            });
         }
         rope_positions
     }
