@@ -3,8 +3,8 @@ use super::direction::Direction;
 #[derive(Eq, PartialEq, Clone, Debug, Hash)]
 pub struct Pos {
     row: i32,
-    col: i32
-} 
+    col: i32,
+}
 
 #[derive(Eq, PartialEq, Clone)]
 pub struct Rope {
@@ -13,29 +13,28 @@ pub struct Rope {
 }
 
 impl Rope {
-
     pub fn make_part_one_rope() -> Rope {
         Rope {
-            head: Pos {row: 0, col: 0 },
-            tail: vec![Pos {row: 0, col: 0 }],
-        }    
+            head: Pos { row: 0, col: 0 },
+            tail: vec![Pos { row: 0, col: 0 }],
+        }
     }
 
     pub fn make_part_two_rope() -> Rope {
         Rope {
-            head: Pos {row: 0, col: 0 },
+            head: Pos { row: 0, col: 0 },
             tail: vec![
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 },
-                Pos {row: 0, col: 0 }
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
+                Pos { row: 0, col: 0 },
             ],
-        } 
+        }
     }
 
     fn y_delta(head: &Pos, tail: &Pos) -> i32 {
@@ -49,16 +48,20 @@ impl Rope {
     fn apply_movement_to_head(head: &Pos, dir: &Direction) -> Pos {
         match dir {
             Direction::Up => Pos {
-                row: head.row + 1, col: head.col
+                row: head.row + 1,
+                col: head.col,
             },
             Direction::Down => Pos {
-                row: head.row - 1, col: head.col
+                row: head.row - 1,
+                col: head.col,
             },
             Direction::Left => Pos {
-                row: head.row, col: head.col - 1
+                row: head.row,
+                col: head.col - 1,
             },
             Direction::Right => Pos {
-                row: head.row, col: head.col + 1
+                row: head.row,
+                col: head.col + 1,
             },
         }
     }
@@ -72,19 +75,39 @@ impl Rope {
         }
         if x_delta == 0 {
             if head.row > tail.row {
-                return Pos { row: head.row-1, col: tail.col };
+                return Pos {
+                    row: head.row - 1,
+                    col: tail.col,
+                };
             } else {
-                return Pos { row: head.row+1, col: tail.col };
+                return Pos {
+                    row: head.row + 1,
+                    col: tail.col,
+                };
             }
         } else if y_delta == 0 {
             if head.col > tail.col {
-                return Pos { row: tail.row, col: head.col - 1};
+                return Pos {
+                    row: tail.row,
+                    col: head.col - 1,
+                };
             } else {
-                return Pos { row: tail.row, col: head.col + 1 };
+                return Pos {
+                    row: tail.row,
+                    col: head.col + 1,
+                };
             }
         } else {
-            let row = if head.row > tail.row { tail.row + 1 } else {tail.row- 1};
-            let col = if head.col > tail.col { tail.col + 1 } else {tail.col - 1};
+            let row = if head.row > tail.row {
+                tail.row + 1
+            } else {
+                tail.row - 1
+            };
+            let col = if head.col > tail.col {
+                tail.col + 1
+            } else {
+                tail.col - 1
+            };
 
             return Pos { row, col };
         }
@@ -104,7 +127,10 @@ impl Rope {
                 tail.push(updated_tail.clone());
                 next_in_chain = updated_tail;
             }
-            rope_positions.push(Rope { head: next_pos_head, tail });
+            rope_positions.push(Rope {
+                head: next_pos_head,
+                tail,
+            });
             last_added_index += 1;
         }
         rope_positions
