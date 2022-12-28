@@ -1,5 +1,6 @@
 pub mod core;
 pub mod day_eight;
+pub mod day_eleven;
 pub mod day_five;
 pub mod day_four;
 pub mod day_nine;
@@ -12,7 +13,7 @@ pub mod day_two;
 
 use crate::core::advent_error::AdventError;
 use crate::core::file::read_lines_to_vec;
-use crate::day_ten::solution;
+use crate::day_eleven::solution;
 
 fn main() {
     let lines =

@@ -2,5 +2,5 @@
 #[repr(u8)]
 pub enum PixelState {
     Off = 0,
-    On = 1
+    On = 1,
 }
