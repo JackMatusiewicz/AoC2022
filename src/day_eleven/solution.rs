@@ -140,6 +140,11 @@ pub fn calculate_part_two(data: Vec<String>) -> i64 {
     let mut troop = make_troop();
     let mut monkey_inspection_count: HashMap<MonkeyId, i64> = HashMap::new();
 
+    /*
+    We want to cap the values (as we want to avoid overflow) but we also don't want to affect the calculations
+    of the monkey throw. In order to do that we can calculate the product of all of the divisors to ensure
+    that the modulo arithmetic calculations still hold.
+     */
     let divisble_product =
         troop.monkeys.iter().map(|m| m.test_divisible_by).fold(1, |a,s| a * s);
     
