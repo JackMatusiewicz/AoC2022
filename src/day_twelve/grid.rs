@@ -1,10 +1,10 @@
 use super::coord::Coord;
 use super::grid_cell::GridCell;
-use std::collections::{HashSet, VecDeque};
-use std::vec::Vec;
 use super::linked_list::LinkedListNode;
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::collections::{HashSet, VecDeque};
+use std::rc::Rc;
+use std::vec::Vec;
 
 pub struct Grid {
     cells: Vec<Vec<GridCell>>,
@@ -59,15 +59,10 @@ impl Grid {
     }
 
     fn get_movement_deltas() -> Vec<(i32, i32)> {
-        vec![(-1, 0), (0, 1), (1, 0), (0, -1) ]
+        vec![(-1, 0), (0, 1), (1, 0), (0, -1)]
     }
 
-
-
-    fn search_for_path(
-        &self,
-        start_pos: Coord,
-    ) -> Option<i32> {
+    pub fn search_for_path(&self, start_pos: Coord) -> Option<i32> {
         let mut visited_cells = HashSet::<Coord>::new();
         let mut to_visit = VecDeque::<(Coord, i32)>::new();
         to_visit.push_back((start_pos.clone(), 0));
@@ -81,13 +76,14 @@ impl Grid {
 
             Grid::get_movement_deltas()
                 .iter()
-                .map(|(dr, dc)| Coord { row: pos.row + dr, col: pos.col + dc })
-                .filter_map(|p| {
-                    self.get_value(&p).map(|_| p)
+                .map(|(dr, dc)| Coord {
+                    row: pos.row + dr,
+                    col: pos.col + dc,
                 })
+                .filter_map(|p| self.get_value(&p).map(|_| p))
                 .filter(|p| {
                     if let Some(p_cell) = self.get_value(p) {
-                        return cell.can_move_to(p_cell); 
+                        return cell.can_move_to(p_cell);
                     }
                     return false;
                 })
@@ -108,8 +104,8 @@ impl Grid {
             start_position.row, start_position.col
         );
 
-        let length = self.search_for_path( start_position)?;
-        
+        let length = self.search_for_path(start_position)?;
+
         Option::Some(length)
     }
 }

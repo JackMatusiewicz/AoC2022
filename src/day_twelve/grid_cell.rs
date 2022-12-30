@@ -18,7 +18,7 @@ impl GridCell {
         match self {
             GridCell::Start => GridCell::Cell(0),
             GridCell::End => GridCell::Cell(25),
-            _ => self.clone()
+            _ => self.clone(),
         }
     }
 
@@ -27,7 +27,7 @@ impl GridCell {
         let b = other.replace();
         match (a, b) {
             (GridCell::Cell(from), GridCell::Cell(to)) => to - from <= 1,
-            _ => false
+            _ => false,
         }
     }
 }

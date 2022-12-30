@@ -23,7 +23,7 @@ fn main() {
     match lines {
         Ok(lines) => {
             println!("Got some lines");
-            let answer = solution::calculate_part_one(lines);
+            let answer = solution::calculate_part_two(lines);
             println!("{}", answer);
         }
         _ => (),
