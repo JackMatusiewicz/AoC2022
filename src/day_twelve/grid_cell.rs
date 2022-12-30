@@ -17,7 +17,7 @@ impl GridCell {
     pub fn replace(&self) -> GridCell {
         match self {
             GridCell::Start => GridCell::Cell(0),
-            GridCell::End => GridCell::Cell(26),
+            GridCell::End => GridCell::Cell(25),
             _ => self.clone()
         }
     }
