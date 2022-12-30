@@ -11,7 +11,7 @@ pub struct Monkey {
     pub update: Box<dyn Fn(i64) -> i64>,
     pub test_divisible_by: i64,
     pub monkey_for_true: MonkeyId,
-    pub monkey_for_false: MonkeyId
+    pub monkey_for_false: MonkeyId,
 }
 
 impl Monkey {
@@ -19,7 +19,7 @@ impl Monkey {
         self.items
             .pop_front()
             .map(|v| (self.update)(v))
-             .map(|v| relief(v))
+            .map(|v| relief(v))
     }
 
     fn find_monkey_to_throw_to(&self, v: i64) -> (MonkeyId, i64) {

@@ -7,9 +7,12 @@ pub struct Troop {
 }
 
 impl Troop {
-
-    fn update_monkey(&mut self, monkey_id: usize, relief: &Box<dyn Fn(i64) -> i64>) -> Option<(MonkeyId, i64)> {
-        let monkey =  self.monkeys.get_mut(monkey_id)?;
+    fn update_monkey(
+        &mut self,
+        monkey_id: usize,
+        relief: &Box<dyn Fn(i64) -> i64>,
+    ) -> Option<(MonkeyId, i64)> {
+        let monkey = self.monkeys.get_mut(monkey_id)?;
         monkey.take_turn(relief)
     }
 
@@ -32,7 +35,7 @@ impl Troop {
         let total_monkeys = self.monkeys.len();
         let mut throws_per_monkey = HashMap::new();
 
-        for i in 0 .. total_monkeys {
+        for i in 0..total_monkeys {
             let items_thrown = self.take_turn_for(i, relief).unwrap_or(0);
             throws_per_monkey.insert(MonkeyId::Id(i as i32), items_thrown);
         }
