@@ -1,9 +1,6 @@
 use super::coord::Coord;
 use super::grid_cell::GridCell;
-use super::linked_list::LinkedListNode;
-use std::cell::RefCell;
 use std::collections::{HashSet, VecDeque};
-use std::rc::Rc;
 use std::vec::Vec;
 
 pub struct Grid {

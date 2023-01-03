@@ -11,10 +11,11 @@ pub mod day_ten;
 pub mod day_three;
 pub mod day_twelve;
 pub mod day_two;
+pub mod day_thirteen;
 
 use crate::core::advent_error::AdventError;
 use crate::core::file::read_lines_to_vec;
-use crate::day_twelve::solution;
+use crate::day_thirteen::list_element::ListElement;
 
 fn main() {
     let lines =
@@ -23,8 +24,9 @@ fn main() {
     match lines {
         Ok(lines) => {
             println!("Got some lines");
-            let answer = solution::calculate_part_two(lines);
-            println!("{}", answer);
+            let answer = ListElement::from_string("[1,2,[7,8,9],4]");
+            answer.print();
+            println!("");
         }
         _ => (),
     }
